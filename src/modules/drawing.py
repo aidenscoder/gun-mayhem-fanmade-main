@@ -1,11 +1,13 @@
-import pygame
+import pygame as __game_source__
 from typing import Callable,Self,Literal,get_args
 
 number = int|float
+__pygame = __game_source__
 
-__image_dict__:dict[str,pygame.Surface]
+
+__image_dict__:dict[str,__pygame.Surface]
 def load_img(image,width,height):
-    __image_dict__[image] = pygame.transform.scale(pygame.image.load(image),(width,height))
+    __image_dict__[image] = __pygame.transform.scale(__pygame.image.load(image),(width,height))
     __image_dict__[image].convert_alpha()
 
 
@@ -57,13 +59,13 @@ class ColorRgbA(tuple[number,number,number,number]):
 
 class window:
     __main_loop__:Callable[[Self],None]
-    __main_window__:pygame.Surface
-    __center__:pygame.Surface
+    __main_window__:__pygame.Surface
+    __center__:__pygame.Surface
     blending_options = Literal['Normal','Additive','Subtractive','Multiplicitive']
     
     def __init__(self,width,height):
-        self.__main_window__ = pygame.display.set_mode((width,height))
-        self.__center__ = pygame.Surface((width,height))
+        self.__main_window__ = __pygame.display.set_mode((width,height))
+        self.__center__ = __pygame.Surface((width,height))
     
     @property
     def main_loop(self):
@@ -80,20 +82,20 @@ class window:
         draw_type:blending_options = "Normal",
         rotation:number = 0
     ):
-        Surface = pygame.Surface((position[2],position[3]),pygame.SRCALPHA)
+        Surface = __pygame.Surface((position[2],position[3]),__pygame.SRCALPHA)
         Surface.convert_alpha()
         Surface.fill(color.conversion)
-        Surface = pygame.transform.rotate(Surface,rotation)
+        Surface = __pygame.transform.rotate(Surface,rotation)
         center = Surface.get_rect(center=(position[0],position[1]))
         match draw_type:
             case "Normal":
                 self.__center__.blit(Surface,center)
             case "Additive":
-                self.__center__.blit(Surface,center,special_flags=pygame.BLEND_RGBA_ADD)
+                self.__center__.blit(Surface,center,special_flags=__pygame.BLEND_RGBA_ADD)
             case "Subtractive":
-                self.__center__.blit(Surface,center,special_flags=pygame.BLEND_RGBA_SUB)
+                self.__center__.blit(Surface,center,special_flags=__pygame.BLEND_RGBA_SUB)
             case "Multiplicitive":
-                self.__center__.blit(Surface,center,special_flags=pygame.BLEND_RGBA_MULT)
+                self.__center__.blit(Surface,center,special_flags=__pygame.BLEND_RGBA_MULT)
             case _:
                 raise TypeError(f"Parameter draw_type must be one of the following options:{get_args(self.blending_options)}")
             
@@ -106,33 +108,33 @@ class window:
     ):
         Surface = __image_dict__[image]
         Surface.convert_alpha()
-        Surface = pygame.transform.rotate(Surface,rotation)
+        Surface = __pygame.transform.rotate(Surface,rotation)
         center = Surface.get_rect(center=(position[0],position[1]))
         match draw_type:
             case "Normal":
                 self.__center__.blit(Surface,center)
             case "Additive":
-                self.__center__.blit(Surface,center,special_flags=pygame.BLEND_RGBA_ADD)
+                self.__center__.blit(Surface,center,special_flags=__pygame.BLEND_RGBA_ADD)
             case "Subtractive":
-                self.__center__.blit(Surface,center,special_flags=pygame.BLEND_RGBA_SUB)
+                self.__center__.blit(Surface,center,special_flags=__pygame.BLEND_RGBA_SUB)
             case "Multiplicitive":
-                self.__center__.blit(Surface,center,special_flags=pygame.BLEND_RGBA_MULT)
+                self.__center__.blit(Surface,center,special_flags=__pygame.BLEND_RGBA_MULT)
             case _:
                 raise TypeError(f"Parameter draw_type must be one of the following options:{get_args(self.blending_options)}")
     
     def start(self,bg_color:ColorRgb):
         running = True
         while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+            for event in __pygame.event.get():
+                if event.type == __pygame.QUIT:
                     running = False
             self.__main_window__.fill(bg_color.conversion)
             self.__center__.fill(bg_color.conversion)
             center = self.__center__.get_rect(center=(self.width/2,self.height/2))
             self.main_loop()
             self.__main_window__.blit(self.__center__,center)
-            pygame.display.flip()
-        pygame.quit()
+            __pygame.display.flip()
+        __pygame.quit()
         
     @property
     def width(self) -> int:
