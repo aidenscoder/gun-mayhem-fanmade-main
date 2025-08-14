@@ -2,8 +2,8 @@ from modules import drawing
 from modules.keybinds import *
 window = drawing.window(800,600)
 
-drawing.load_img('src\\assets\\bg layer 1.png','bg-1',1.5,1.5)
-drawing.load_img('src\\assets\\bg layer 2.png','bg-2',1.5,1.5)
+drawing.load_img('src/assets/bg layer 1.png','bg-1',1.5,1.5)
+drawing.load_img('src/assets/bg layer 2.png','bg-2',1.5,1.5)
 camera_x:drawing.number = 0
 camera_y:drawing.number = 0
 
