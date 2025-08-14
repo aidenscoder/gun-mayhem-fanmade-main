@@ -76,3 +76,8 @@ class window:
     
     @property
     def height(self) -> int:...
+
+def collide_rect(
+    rect1:tuple[number,number,number,number,number],
+    rect2:tuple[number,number,number,number,number]
+) -> bool:...

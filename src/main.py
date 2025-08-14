@@ -1,10 +1,12 @@
-import modules.drawing
-from pygame import mouse,key
-window = modules.drawing.window(800,600)
+from modules import drawing
+from modules.keybinds import *
+import pygame
+window = drawing.window(800,600)
 
 
-def main(window:modules.drawing.window):
-    window.draw_rect((400,300,50,50),modules.drawing.ColorRgbA((100,255,0,255)),'Additive')
-    window.draw_rect((375,300,50,50),modules.drawing.ColorRgbA((255,0,0,255)),'Additive')
-    
+def main(window:drawing.window):
+    window.draw_rect((125,300,200,50))
+    window.draw_rect((625,300,200,50))
+    window.draw_rect((400,500,500,50))
 window.main_loop = main
+window.start(bg_color=drawing.ColorRgb((255,255,255)))
