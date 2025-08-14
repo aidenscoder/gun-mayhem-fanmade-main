@@ -1,4 +1,3 @@
-from typing_extensions import Self
 from typing import Literal
 
 folders = Literal['src','.vscode','util','modules','util','root']
@@ -9,7 +8,7 @@ def folder(name:str,content:list[str]|tuple[str,...] = [],indent:str = ""):
     return base
         
 class Folder:
-    def __getitem__(self,name:folders):
+    def __getitem__(self,name:folders|str):
         folder_name = name
         def wrapper(indent:int = 0,*content:str):
             indentation = ""
