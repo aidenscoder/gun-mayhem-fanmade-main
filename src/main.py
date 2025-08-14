@@ -1,4 +1,5 @@
 import modules.drawing
+from pygame import mouse,key
 window = modules.drawing.window(800,600)
 
 
