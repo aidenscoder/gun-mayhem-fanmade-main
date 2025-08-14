@@ -35,5 +35,7 @@ x = formater['root'](0,
         'templater.py'
     )
 )
-with open('util\\output.txt','w') as file:
+with open('util/output.txt','w') as file:
     file.write(x)
+    
+#check for update
