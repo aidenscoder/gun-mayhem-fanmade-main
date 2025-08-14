@@ -5,10 +5,16 @@ number = int|float
 __pygame__ = __game_source__
 
 
-__image_dict__:dict[str,__pygame__.Surface]
-def load_img(image,width,height):
-    __image_dict__[image] = __pygame__.transform.scale(__pygame__.image.load(image),(width,height))
-    __image_dict__[image].convert_alpha()
+__image_dict__:dict[str,__pygame__.Surface] = {}
+def load_img(image,name,width,height):
+    base = __pygame__.image.load(image)
+    __image_dict__[name] = __pygame__.transform.scale(
+        base,(
+            width*base.get_width(),
+            height*base.get_height()
+        )
+    )
+    __image_dict__[name].convert_alpha()
 
 
 class ColorRgb(tuple[number,number,number]):
@@ -84,7 +90,11 @@ class window:
     ):
         Surface = __pygame__.Surface((position[2],position[3]),__pygame__.SRCALPHA)
         Surface.convert_alpha()
-        Surface.fill(color.conversion)
+        if isinstance(color,ColorRgb):
+            Surface.fill(color.conversion)
+        elif isinstance(color,ColorRgbA):
+            Surface.fill(color.conversion)
+            Surface.set_alpha(color.A)
         Surface = __pygame__.transform.rotate(Surface,rotation)
         center = Surface.get_rect(center=(position[0],position[1]))
         match draw_type:

@@ -4,7 +4,7 @@ from typing import Callable,Self,Literal
 number = int|float
 
 __image_dict__:dict[str,pygame.Surface]
-def load_img(image:str,width:float,height:float):...
+def load_img(image:str,name:str,width:float,height:float):...
 
 class ColorRgb(tuple[number,number,number]):
     def __new__(cls,pair:tuple[number,number,number] = (0,0,0)) -> Self: ...
@@ -63,8 +63,8 @@ class window:
     
     def draw_image(
         self,
-        position:tuple[number,number],
-        color:ColorRgb|ColorRgbA = ColorRgb((0,0,0)),
+        position,
+        image:str,
         draw_type:blending_options = "Normal",
         rotation:number = 0
     ) -> None:...
