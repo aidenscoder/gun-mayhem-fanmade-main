@@ -82,8 +82,7 @@ class window:
     ):
         Surface = pygame.Surface((position[2],position[3]),pygame.SRCALPHA)
         Surface.convert_alpha()
-        if isinstance(color,ColorRgb):
-            Surface.fill(color.conversion)
+        Surface.fill(color.conversion)
         Surface = pygame.transform.rotate(Surface,rotation)
         center = Surface.get_rect(center=(position[0],position[1]))
         match draw_type:
