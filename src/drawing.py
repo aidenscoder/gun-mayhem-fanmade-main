@@ -8,6 +8,7 @@ def load_img(image,width,height):
     __image_dict__[image] = pygame.transform.scale(pygame.image.load(image),(width,height))
     __image_dict__[image].convert_alpha()
 
+
 class ColorRgb(tuple[number,number,number]):
     def __new__(cls,pair = (0,0,0)):
         return super().__new__(cls,pair)
@@ -53,6 +54,7 @@ class ColorRgbA(tuple[number,number,number,number]):
     def conversion(self) -> tuple[int,...]:
         return tuple(map(lambda x:int(x),self))
 
+
 class window:
     __main_loop__:Callable[[Self],None]
     __main_window__:pygame.Surface
@@ -61,11 +63,11 @@ class window:
     
     def __init__(self,width,height):
         self.__main_window__ = pygame.display.set_mode((width,height))
-        self.__center__ = pygame.Surface((0,0))
+        self.__center__ = pygame.Surface((width,height))
     
     @property
     def main_loop(self):
-        return self.__main_loop__.__get__(self)
+        return self.__main_loop__.__get__(self,type(self))
     
     @main_loop.setter
     def main_loop(self,value) -> None:
@@ -83,7 +85,7 @@ class window:
         if isinstance(color,ColorRgb):
             Surface.fill(color.conversion)
         Surface = pygame.transform.rotate(Surface,rotation)
-        center = Surface.get_rect(rect=(position[0],position[1]))
+        center = Surface.get_rect(center=(position[0],position[1]))
         match draw_type:
             case "Normal":
                 self.__center__.blit(Surface,center)
@@ -106,7 +108,7 @@ class window:
         Surface = __image_dict__[image]
         Surface.convert_alpha()
         Surface = pygame.transform.rotate(Surface,rotation)
-        center = Surface.get_rect(rect=(position[0],position[1]))
+        center = Surface.get_rect(center=(position[0],position[1]))
         match draw_type:
             case "Normal":
                 self.__center__.blit(Surface,center)
@@ -126,7 +128,9 @@ class window:
                 if event.type == pygame.QUIT:
                     running = False
             self.__main_window__.fill(bg_color.conversion)
+            self.__center__.fill(bg_color.conversion)
             center = self.__center__.get_rect(center=(self.width/2,self.height/2))
+            self.main_loop()
             self.__main_window__.blit(self.__center__,center)
             pygame.display.flip()
         pygame.quit()
