@@ -1,6 +1,7 @@
 from typing_extensions import Self
+from typing import Literal
 
-
+folders = Literal['src','.vscode','util','modules','util','root']
 def folder(name:str,content:list[str]|tuple[str,...] = [],indent:str = ""):
     base = f"({name}):\n"  
     for i in content:
@@ -8,7 +9,7 @@ def folder(name:str,content:list[str]|tuple[str,...] = [],indent:str = ""):
     return base
         
 class Folder:
-    def __getitem__(self,name:str):
+    def __getitem__(self,name:folders):
         folder_name = name
         def wrapper(indent:int = 0,*content:str):
             indentation = ""
@@ -29,7 +30,11 @@ x = formater['root'](0,
             'drawing.pyi'
         ),
         'main.py'
+    ),
+    formater['util'](1,
+        'output #generated',
+        'templater.py'
     )
 )
-with open('src\\output','w') as file:
+with open('util\\output.txt','w') as file:
     file.write(x)
