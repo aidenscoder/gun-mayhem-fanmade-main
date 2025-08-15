@@ -71,7 +71,8 @@ class window:
     
     def __init__(self,width,height):
         self.__main_window__ = __pygame__.display.set_mode((width,height))
-        self.__center__ = __pygame__.Surface((width,height))
+        self.__center__ = __pygame__.Surface((width,height),__pygame__.SRCALPHA)
+
     
     @property
     def main_loop(self):
@@ -89,13 +90,10 @@ class window:
         rotation:number = 0
     ):
         Surface = __pygame__.Surface((position[2],position[3]),__pygame__.SRCALPHA)
-        Surface.convert_alpha()
-        if isinstance(color,ColorRgb):
-            Surface.fill(color.conversion)
-        elif isinstance(color,ColorRgbA):
-            Surface.fill(color.conversion)
-            Surface.set_alpha(color.A)
+        Surface.fill(color.conversion)
         Surface = __pygame__.transform.rotate(Surface,rotation)
+        if isinstance(color,ColorRgbA):
+            Surface.set_alpha(int(color.A))
         center = Surface.get_rect(center=(position[0],position[1]))
         match draw_type:
             case "Normal":
