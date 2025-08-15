@@ -4,8 +4,10 @@ from typing import Callable,Self,Literal,get_args
 number = int|float
 __pygame__ = __game_source__
 
+__pygame__.display.set_mode((1,1))
 
-__image_dict__:dict[str,__pygame__.Surface] = {}
+__image_dict__:dict[str|Literal['square'],__pygame__.Surface] = {}
+
 def load_img(image,name,width,height):
     base = __pygame__.image.load(image)
     __image_dict__[name] = __pygame__.transform.scale(
@@ -16,6 +18,7 @@ def load_img(image,name,width,height):
     )
     __image_dict__[name].convert_alpha()
 
+load_img(r'src\assets\square.png','square',1,1)
 
 class ColorRgb(tuple[number,number,number]):
     def __new__(cls,pair = (0,0,0)):
@@ -89,12 +92,13 @@ class window:
         draw_type:blending_options = "Normal",
         rotation:number = 0
     ):
-        Surface = __pygame__.Surface((position[2],position[3]),__pygame__.SRCALPHA)
-        Surface.fill(color.conversion)
+        orig = __image_dict__['square']
+        Surface = orig.copy()
+        __pygame__.transform.threshold(Surface,orig,(0,0,0,255),(0,0,0,0),color.conversion,inverse_set=True)
         Surface = __pygame__.transform.rotate(Surface,rotation)
-        if isinstance(color,ColorRgbA):
-            Surface.set_alpha(int(color.A))
+        Surface = __pygame__.transform.scale(Surface,(position[2],position[3]))
         center = Surface.get_rect(center=(position[0],position[1]))
+        Surface.set_alpha(color.conversion[3]) if isinstance(color,ColorRgbA) else ()
         match draw_type:
             case "Normal":
                 self.__center__.blit(Surface,center)
