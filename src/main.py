@@ -13,9 +13,7 @@ def main(window:drawing.window):
     
     camera_x = Mouse.x - window.width/2
     camera_y = Mouse.y - window.height/2
-    #window.draw_image((400-camera_x*0.05,500-camera_y*0.05),'bg-2',"Additive")
-    #window.draw_image((400-camera_x*0.1,500-camera_y*0.1),'bg-1',"Additive")
-    window.draw_rect((425,300,50,50),drawing.ColorRgbA((255,0,0,100)),"Additive")
-    window.draw_rect((450,300,50,50),drawing.ColorRgbA((0,255,0,100)),"Additive")
+    window.draw_image((400-camera_x*0.05,500-camera_y*0.05),'bg-2')
+    window.draw_image((400-camera_x*0.1,500-camera_y*0.1),'bg-1')
 window.main_loop = main
 window.start(bg_color=drawing.ColorRgb((0,0,0)))
